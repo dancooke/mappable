@@ -30,3 +30,19 @@
 *.exe
 *.out
 *.app
+example
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+
+# CLion stuff
+.DS_Store
+.idea/
+cmake-build-debug/*
+*.cbp
