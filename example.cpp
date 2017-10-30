@@ -199,6 +199,8 @@ void mappable_multiset_example()
         auto quality = quality_dist(gen);
         return {begin, std::min(begin + read_size, contig_size), quality};
     });
+    // Note this is a very inefficient way to input data into a MappableFlatMultiSet!
+    // A much better way is to insert pre-sorted data.
     
     // We can now query the MappableFlatMultiSet using any mappable algorithm.
     const ContigRegion test_region {contig_size / 2 - contig_size / 4, contig_size / 2 + contig_size / 4};
@@ -219,6 +221,11 @@ void mappable_multiset_example()
     const auto covered_fraction = 100 * static_cast<double>(covered_length) / contig_size;
     std::cout << "The generated reads covered " << covered_fraction << "% of the contig: "
               << covered_regions << std::endl;
+    
+    // We can also easily get any 'intervening' regions between the covered regions.
+    const auto intervening_regions = extract_intervening_regions(covered_regions, ContigRegion {0, contig_size});
+    const auto intervening_length = sum_region_sizes(intervening_regions);
+    std::cout << "covered_length + intervening_length = " << covered_length + intervening_length << std::endl;
     
     // We can also efficiently look at the coverage in a region
     const auto depths = calculate_positional_coverage(reads, reads[num_reads / 2]);
