@@ -1,6 +1,6 @@
 # Mappable
 
-Mappable is a powerful C++ template library for genomic region storage, manipulation, and querying. Mappable is independent of the data structure used to store the underlying objects, instead relying on C++'s [curiously recurring template pattern (CRTP)](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern) to define region concepts and ordering. This allows Mappable to build on standard C++ containers and algorithms to give an efficient, flexible, and expressive set of region based containers and algorithms which act directly on `Mappable` objects. Mappable has been heavily tested and benchmarked, and often performs orders of magnitude faster than other approaches (see `benchmark.cpp`).
+Mappable is a powerful C++ template library for genomic region storage, manipulation, and querying. Mappable is independent of the data structure used to store the underlying objects, instead relying on C++'s [curiously recurring template pattern (CRTP)](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern) to define region concepts and ordering. This allows Mappable to build on standard C++ containers and algorithms to give an efficient, flexible, and expressive set of region based containers and algorithms which act directly on `Mappable` objects. Mappable has been heavily tested and benchmarked, and can perform orders of magnitude faster than other approaches (see `benchmark.cpp`).
 
 ## Requirements
 
