@@ -10,8 +10,8 @@ Mappable is a powerful C++ template library for genomic region storage, manipula
 To compile the example you will also need CMake 3.5 or greater:
 
 ```shell
-$ cmake .
-$ make
+$ mkdir build && cd build
+$ cmake .. && make
 $ ./example
 ```
 
