@@ -376,7 +376,7 @@ std::pair<typename MappableFlatSet<MappableType, Allocator>::iterator, bool>
 MappableFlatSet<MappableType, Allocator>::insert(const MappableType& m)
 {
     auto it = std::lower_bound(std::begin(elements_), std::end(elements_), m);
-    if (it == std::end(elements_) || *it != m) {
+    if (it == std::end(elements_) || !(*it == m)) {
         it = elements_.insert(it, m);
     } else {
         return std::make_pair(it, false);
@@ -394,7 +394,7 @@ std::pair<typename MappableFlatSet<MappableType, Allocator>::iterator, bool>
 MappableFlatSet<MappableType, Allocator>::insert(MappableType&& m)
 {
     auto it = std::lower_bound(std::begin(elements_), std::end(elements_), m);
-    if (it == std::end(elements_) || *it != m) {
+    if (it == std::end(elements_) || !(*it == m)) {
         it = elements_.insert(it, std::move(m));
     } else {
         return std::make_pair(it, false);
@@ -426,7 +426,7 @@ MappableFlatSet<MappableType, Allocator>::insert(const_iterator hint, const Mapp
                     return remove_constness(elements_, std::prev(hint));
                 } else {
                     hint = std::lower_bound(hint, std::cend(elements_), m);
-                    if (hint == std::end(elements_) || *hint != m) {
+                    if (hint == std::end(elements_) || !(*hint == m)) {
                         result = elements_.insert(hint, m);
                     } else {
                         return remove_constness(elements_, hint); // not found
@@ -478,7 +478,7 @@ MappableFlatSet<MappableType, Allocator>::insert(const_iterator hint, MappableTy
                     return remove_constness(elements_, std::prev(hint));
                 } else {
                     hint = std::lower_bound(hint, std::cend(elements_), m);
-                    if (hint == std::end(elements_) || *hint != m) {
+                    if (hint == std::end(elements_) || !(*hint == m)) {
                         result = elements_.insert(hint, std::move(m));
                     } else {
                         return remove_constness(elements_, hint); // not found
