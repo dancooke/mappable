@@ -638,7 +638,7 @@ MappableFlatMultiSet<MappableType, Allocator>::has_overlapped(const MappableType
 {
     using mappable::has_overlapped;
     if (is_bidirectionally_sorted_) {
-        has_overlapped(std::begin(elements_), std::end(elements_), mappable, BidirectionallySortedTag {});
+        return has_overlapped(std::begin(elements_), std::end(elements_), mappable, BidirectionallySortedTag {});
     }
     return has_overlapped(std::begin(elements_), std::end(elements_), mappable);
 }
@@ -651,7 +651,7 @@ MappableFlatMultiSet<MappableType, Allocator>::has_overlapped(const_iterator fir
 {
     using mappable::has_overlapped;
     if (is_bidirectionally_sorted_) {
-        has_overlapped(first, last, mappable, BidirectionallySortedTag {});
+        return has_overlapped(first, last, mappable, BidirectionallySortedTag {});
     }
     return has_overlapped(first, last, mappable);
 }
