@@ -76,6 +76,8 @@ bool operator==(const Allele& lhs, const Allele& rhs) noexcept
 }
 bool operator<(const Allele& lhs, const Allele& rhs) noexcept
 {
+    // Note the region must be the strongest ordering component to satisfy
+    // Mappable requirements
     return lhs.region == rhs.region ? lhs.sequence < rhs.sequence : lhs.region < rhs.region;
 }
 
@@ -189,18 +191,26 @@ void mappable_multiset_example()
     
     MappingQualitySet reads {};
     
+    const auto generate_random_read = [&] () -> Read {
+        auto begin = position_dist(gen);
+        auto quality = quality_dist(gen);
+        return {begin, std::min(begin + read_size, contig_size), quality};
+    };
+    
     // First let's fill the container with some randomly generated data.
     // We don't need to worry about sorting as MappableFlatMultiSet will
     // handle this.
     std::cout << "Inserting " << num_reads << " randomly generated 'reads' into the MappableFlatMultiSet" << std::endl;
     reads.reserve(num_reads);
-    std::generate_n(std::inserter(reads, std::begin(reads)), num_reads, [&] () -> Read { 
-        auto begin = position_dist(gen);
-        auto quality = quality_dist(gen);
-        return {begin, std::min(begin + read_size, contig_size), quality};
-    });
+    std::generate_n(std::inserter(reads, std::begin(reads)), num_reads / 2, generate_random_read);
+    
     // Note this is a very inefficient way to input data into a MappableFlatMultiSet!
     // A much better way is to insert pre-sorted data.
+    std::vector<Read> buffer {};
+    buffer.reserve(num_reads / 2);
+    std::generate_n(std::back_inserter(buffer), num_reads / 2, generate_random_read);
+    std::sort(std::begin(buffer), std::end(buffer));
+    reads.insert(std::make_move_iterator(std::begin(buffer)), std::make_move_iterator(std::end(buffer)));
     
     // We can now query the MappableFlatMultiSet using any mappable algorithm.
     const ContigRegion test_region {contig_size / 2 - contig_size / 4, contig_size / 2 + contig_size / 4};
@@ -291,7 +301,7 @@ void complex_usage_example()
 
 void mappable_reference_wrapper_example()
 {
-    std::cout << "Running complex_usage_example..." << std::endl;
+    std::cout << "Running mappable_reference_wrapper_example..." << std::endl;
     
     // Sometimes you will want to store a collection of references to Mappable objects.
     // As standard C++ solutions to this (e.g. pointers or std::reference_wrapper) are not
