@@ -19,28 +19,34 @@ $ ./example
 
 The starting point for any `Mappable` type is to inherit from `Mappable` and implement the `mapped_region` member method:
 
-    struct MyMappableType : public Mappable<MyMappableType>
-    {
-        ContigRegion region;
-        MyDataType data;
-        const ContigRegion& mapped_region();
-        MyMappableType(ContigRegion region, MyDataType data);
-    };
+```cpp
+struct MyMappableType : public Mappable<MyMappableType>
+{
+    ContigRegion region;
+    MyDataType data;
+    const ContigRegion& mapped_region();
+    MyMappableType(ContigRegion region, MyDataType data);
+};
+```
 
 Now `MyMappableType` can be used with all of Mappable's algorithms:
 
-    std::vector<MyMappableType> mappables {};
-    mappables.emplace_back(ContigRegion {0, 1}, "A");
-    mappables.emplace_back(ContigRegion {1, 3}, "B");
-    mappables.emplace_back(ContigRegion {2, 4}, "C");
-    auto overlapped = overlap_range(mappables, ContigRegion {1, 3}); // iterator range
-    std::cout << overlapped << std::endl;
-    std::cout << count_contained(mappables, ContigRegion {1, 3}) << std::endl; // 1
+```cpp
+std::vector<MyMappableType> mappables {};
+mappables.emplace_back(ContigRegion {0, 1}, "A");
+mappables.emplace_back(ContigRegion {1, 3}, "B");
+mappables.emplace_back(ContigRegion {2, 4}, "C");
+auto overlapped = overlap_range(mappables, ContigRegion {1, 3}); // iterator range
+std::cout << overlapped << std::endl;
+std::cout << count_contained(mappables, ContigRegion {1, 3}) << std::endl; // 1
+```
 
 The library also includes some helpful containers that are heavily optimised for `Mappable` types:
 
-    MyMappableType a {ContigRegion {0, 1}, "A"}, b {ContigRegion {1, 3}, "B"};
-    MappableFlatSet<MyMappableType> mappables {a};
-    mappables.insert(b);
-    mappables.emplace(ContigRegion {1, 3}, "C");
-    mappables.erase(b);
+```cpp
+MyMappableType a {ContigRegion {0, 1}, "A"}, b {ContigRegion {1, 3}, "B"};
+MappableFlatSet<MyMappableType> mappables {a};
+mappables.insert(b);
+mappables.emplace(ContigRegion {1, 3}, "C");
+mappables.erase(b);
+```
