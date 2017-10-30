@@ -33,8 +33,9 @@ Now `MyMappableType` can be used with all of Mappable's algorithms:
     mappables.emplace_back(ContigRegion {0, 1}, "A");
     mappables.emplace_back(ContigRegion {1, 3}, "B");
     mappables.emplace_back(ContigRegion {2, 4}, "C");
-    std::cout << count_contained(mappables, ContigRegion {1, 3}) << std::endl; // 2
-    std::cout << count_overlapped(mappables, ContigRegion {1, 3}) << std::endl; // 1
+    auto overlapped = overlap_range(mappables, ContigRegion {1, 3}); // iterator range
+    std::cout << overlapped << std::endl;
+    std::cout << count_contained(mappables, ContigRegion {1, 3}) << std::endl; // 1
 
 The library also includes some helpful containers that are heavily optimised for `Mappable` types:
 
