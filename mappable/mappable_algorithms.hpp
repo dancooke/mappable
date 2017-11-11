@@ -10,6 +10,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <type_traits>
+#include <limits>
 
 #include <boost/iterator/filter_iterator.hpp>
 #include <boost/range/iterator_range_core.hpp>
@@ -378,8 +379,11 @@ ForwardIt find_first_after(ForwardIt first, ForwardIt last, const MappableTp& ma
     using MappableTp2 = typename std::iterator_traits<ForwardIt>::value_type;
     static_assert(is_region_or_mappable<MappableTp> && is_region_or_mappable<MappableTp2>,
                   "Mappable required");
-    auto it = std::lower_bound(first, last, next_mapped_position(mappable));
-    return std::find_if_not(it, last, [&mappable] (const auto& m) { return overlaps(m, mappable); });
+    if (mapped_end(mappable) == std::numeric_limits<typename RegionType<MappableTp>::Size>::max()) {
+        return last;
+    }
+    auto itr = std::lower_bound(first, last, next_mapped_position(mappable));
+    return std::find_if_not(itr, last, [&mappable] (const auto& m) { return overlaps(m, mappable); });
 }
 
 template <typename Container, typename MappableTp>
