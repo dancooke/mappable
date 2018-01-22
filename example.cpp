@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "mappable/mappable_fwd.hpp"
+#include "mappable/mappable_range_io.hpp"
 
 using namespace mappable;
 
@@ -116,28 +117,10 @@ std::ostream& operator<<(std::ostream& os, const AlleleReference& allele)
     return os;
 }
 
-// Some utility print methods
-
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& v)
 {
     std::copy(std::cbegin(v), std::cend(v), std::ostream_iterator<T> {os, " "});
-    return os;
-}
-
-template <typename It>
-std::ostream& operator<<(std::ostream& os, const OverlapRange<It>& range)
-{
-    using T = typename std::iterator_traits<It>::value_type;
-    std::copy(std::cbegin(range), std::cend(range), std::ostream_iterator<T> {os, " "});
-    return os;
-}
-
-template <typename It>
-std::ostream& operator<<(std::ostream& os, const ContainedRange<It>& range)
-{
-    using T = typename std::iterator_traits<It>::value_type;
-    std::copy(std::cbegin(range), std::cend(range), std::ostream_iterator<T> {os, " "});
     return os;
 }
 
@@ -225,7 +208,7 @@ void mappable_multiset_example()
     const auto mean_quality = quality_sum / size(contained);
     std::cout << "The mean quality of reads contained in " << test_region << " is " << mean_quality << std::endl;
     
-    // Which positions on are contig have read coverage?
+    // Which positions on the contig have read coverage?
     const auto covered_regions = extract_covered_regions(reads);
     const auto covered_length = sum_region_sizes(covered_regions);
     const auto covered_fraction = 100 * static_cast<double>(covered_length) / contig_size;

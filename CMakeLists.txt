@@ -19,6 +19,7 @@ set(MAPPABLE_SOURCES
     ${mappable_SOURCE_DIR}/mappable/mappable_flat_set.hpp
     ${mappable_SOURCE_DIR}/mappable/mappable_map.hpp
     ${mappable_SOURCE_DIR}/mappable/mappable_fwd.hpp
+    ${mappable_SOURCE_DIR}/mappable/mappable_range_io.hpp
 )
 
 if (BUILD_TESTING)
